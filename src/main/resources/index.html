@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSE example</title>
+</head>
+<p>
+
+    SSE with coordinate events: <ul id="coordiante-events"></ul>
+</p>
+
+<script type="application/javascript">
+
+    var cooEvents = document.getElementById("coordiante-events");
+    var cooEventSource = new EventSource("/txPointTraditionalSse");
+    cooEventSource.onmessage = function(e) {
+        var newElement = document.createElement("li");
+        var mapped = JSON.parse(e.data);
+        newElement.innerHTML = "Coordinates: x=" + mapped.x+ ", y=" + mapped.y;
+        cooEvents.appendChild(newElement);
+    }
+
+</script>
+</body>
+</html>
