@@ -29,7 +29,12 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive')
+	//compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive')
+        compile('org.springframework.boot.experimental:spring-boot-starter-web-reactive') {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        }
+        compile "io.reactivex:rxnetty-common"
+        compile "io.reactivex:rxnetty-http"
 }
 
 dependencyManagement {

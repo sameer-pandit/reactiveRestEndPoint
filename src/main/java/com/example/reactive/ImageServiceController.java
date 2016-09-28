@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 public class ImageServiceController {
   private ImageService imageService;
-  private static long duration = 1000;
+  private static long duration = 3;
 
   @Autowired
   public ImageServiceController(ImageService imageService) {
@@ -36,8 +36,11 @@ public class ImageServiceController {
   @RequestMapping(path = "/txPointTraditionalSse", method = RequestMethod.GET)
   public Flux<MappedCoordinates> transformSse(){
     //return Mono.just(imageService.doSomething(point,1));
-    return Flux.interval(Duration.ofSeconds(1))
-            .map(l -> imageService.doSomething(new Coordinates(4,5),duration));
+    Flux<Integer> xFlux = Flux.range(3,10);
+    Flux<Integer> yFlux = Flux.range(8,10);
+    Flux<Coordinates> coordinatesFlux = Flux.zip(xFlux,yFlux,(x,y)->new Coordinates(x,y));
+    return Flux.interval(Duration.ofMillis(60)).map(l->imageService.doSomething(new Coordinates(4,5),duration)) ;
+//    return coordinatesFlux.map(l -> imageService.doSomething(l,duration));
 
   }
 
